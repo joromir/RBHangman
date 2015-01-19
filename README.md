@@ -25,17 +25,23 @@
 
 Имплементация: 
 
-`CREATE TABLE DICTIONARY(WORD VARCHAR(25) PRIMARY KEY NOT NULL);`
-
-`CREATE TABLE HIGHSCORES(PLAYER VARCHAR(25) NOT NULL PRIMARY KEY, SCORE INTEGER NOT NULL);`
-
+```SQL
+CREATE TABLE DICTIONARY(WORD VARCHAR(25) PRIMARY KEY NOT NULL);
+```
+```SQL
+CREATE TABLE HIGHSCORES(PLAYER VARCHAR(25) NOT NULL PRIMARY KEY, SCORE INTEGER NOT NULL);
+```
 
 Класът `DB` има следните публични методи:
 
++ 
 ```ruby
-+ has_record?(table, value, column)
-+ simple_query(select, from, where = nil, order_by = nil)
-+ ...
+has_record?(table, value, column)
+```
+
++ 
+```ruby
+simple_query(select, from, where = nil, order_by = nil)
 ```
 В процес на разработка ...
 
