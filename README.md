@@ -33,8 +33,8 @@
 Класът `DB` има следните публични методи:
 
 ```ruby
-+ RBHangman::DB#has_record?(table, value, column)
-+ RBHangman::DB#simple_query(select, from, where = nil, order_by = nil)
++ has_record?(table, value, column)
++ simple_query(select, from, where = nil, order_by = nil)
 + ...
 ```
 В процес на разработка ...
