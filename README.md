@@ -34,13 +34,15 @@ CREATE TABLE HIGHSCORES(PLAYER VARCHAR(25) NOT NULL PRIMARY KEY, SCORE INTEGER N
 
 Класът `DB` има следните публични методи:
 
-+ ```ruby
+```ruby
 has_record?(table, value, column)
 ```
 
-+ ```ruby
+```ruby
 simple_query(select, from, where = nil, order_by = nil)
 ```
+
+
 В процес на разработка ...
 
 
