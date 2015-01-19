@@ -4,7 +4,7 @@
 
 Пресъздаване на класическата игра бесеница.
 
-В процес на разработка..
+Проектът е в процес на разработка!
 
 ## Изисквания
 
@@ -12,7 +12,10 @@
 
 `gem install sqlite3`
 
+
 В процес на разработка ...
+
+Следва продължение ...
 
 ## Структура
 
@@ -32,18 +35,31 @@ CREATE TABLE DICTIONARY(WORD VARCHAR(25) PRIMARY KEY NOT NULL);
 CREATE TABLE HIGHSCORES(PLAYER VARCHAR(25) NOT NULL PRIMARY KEY, SCORE INTEGER NOT NULL);
 ```
 
-Класът `RBHangman::DB` има следните публични методи:
+Класът `RBHangman::DB` има следните методи:
 
 ```ruby
 has_record?(table, value, column)
 ```
 
 ```ruby
-simple_query(select, from, where = nil, order_by = nil)
+selector(select, from, where = nil, order_by = nil)
+```
+
+```ruby
+def inserter(table, values, columns)
+```
+
+```ruby
+updater(update, set, where)
 ```
 
 
+
+
+
+
 В процес на разработка ...
+
 Следва продължение ...
 
 
