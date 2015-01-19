@@ -46,7 +46,7 @@ selector(select, from, where = nil, order_by = nil)
 ```
 
 ```ruby
-def inserter(table, values, columns)
+inserter(table, values, columns)
 ```
 
 ```ruby
