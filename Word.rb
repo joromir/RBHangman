@@ -17,14 +17,24 @@ module RBHangman
     end
 
     def try(letter)
-      state
       @used << letter.upcase unless @used.include?(letter.upcase)
       has_letter?(letter) ? reveal(letter) : @wrong = @wrong + 1
-      state
       @revealed
     end
 
+    def guessed?
+      @wrong < 10 and @hidden.join("") == @revealed.join("")
+    end
+
+    def failed?
+      @wrong >= 10
+    end
+
     private
+
+    def has_letter?(letter)
+      @hidden & [letter.upcase] == [letter.upcase]
+    end
 
     def initialize
       @hidden = selector('word',
@@ -37,11 +47,6 @@ module RBHangman
       @used = []
     end
 
-    def state
-      throw :success if @wrong < 10 and @hidden.join("") == @revealed.join("")
-      throw :failure if @wrong >= 10
-    end
-
     def reveal(letter)
       @hidden.each.with_index do |secret_letter, index|
         if(letter.upcase == secret_letter.upcase)
@@ -49,10 +54,6 @@ module RBHangman
         end
       end
       @revealed
-    end
-
-    def has_letter?(letter)
-      @hidden & [letter.upcase] == [letter.upcase]
     end
   end
 end

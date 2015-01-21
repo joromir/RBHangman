@@ -1,8 +1,10 @@
 module RBHangman
   class DB
+    private
+
     def has_record?(table, value, column)
-      query = "SELECT #{column.upcase}
-               FROM #{table.upcase}
+      query = "SELECT #{column.upcase} 
+               FROM #{table.upcase} 
                WHERE #{column.upcase}='#{value.upcase}';"
       SQLite3::Database.new("./rbhangman.db").execute(query) != []
     end
@@ -10,8 +12,8 @@ module RBHangman
     def selector(select, from, where = nil, order_by = nil)
       select = "SELECT " + select
       from = " FROM " + from
-      where = where ? " WHERE " + where : ""
-      order_by = order_by ? " ORDER BY " + order_by : ""
+      where = where ? " WHERE " + where : ""  
+      order_by = order_by ? " ORDER BY " + order_by : "" 
 
       SQLite3::Database.new("./rbhangman.db")
                        .execute(select + from + where + order_by)
