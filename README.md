@@ -46,39 +46,42 @@ CREATE TABLE HIGHSCORES(PLAYER VARCHAR(25) NOT NULL PRIMARY KEY, SCORE INTEGER N
 
 ```ruby
 has_record?(table, value, column)
-```
 
-```ruby
 selector(select, from, where = nil, order_by = nil)
-```
 
-```ruby
 inserter(table, values, columns)
-```
 
-```ruby
 updater(update, set, where)
 ```
 
 Класът `RBHangman::Word` е наследник на `RBHangman::DB`.
 
-При създаване на нова инстанция на `RBHangman::Word`, в инстанционната променлива `@hidden` се зарежда произволна дума от БД.
+При създаване на нова инстанция на `RBHangman::Word`, в инстанционната променлива `@hidden` се зарежда произволна дума от БД като списък от букви.
  
 ```ruby
 try(letter)
 ```
 
-Горният публичен метод ни позволява работа с думата според правилата на играта бесеница. Отгатнатите букви се пазят в `@revealed`.
+Горният публичен метод ни позволява работа с думата според правилата на играта бесеница. Отгатнатите букви се пазят в списъка `@revealed`.
 
 Този клас притежава и два класови метода: 
 
 ```ruby
 in_database?(word)
-```
 
-```ruby
 add_new(word)
 ```
+
+Подобно на `RBHangman::Word`, класът `RBHangman::Player` е също наследник на `RBHangman::DB`. Всеки обект от този клас съдържа обект от клас `RBHangman::Word`, а също така и инстанционни променливи за име и брой отгатнати думи - `@name` и `@score`. Играта приключва, когато бъдат направени 10 грешни опита за отгатване на буквите на дадена дума. Прави се запис в таблицата `HIGHSCORES` в случай, че е постигнат нов рекорд.
+
+По-важни методи от този клас са:
+
+```ruby
+try_letter(letter)
+
+new_word
+```
+
 
 
 
