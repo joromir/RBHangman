@@ -65,13 +65,6 @@ alias [] try
 
 Горният публичен метод ни позволява работа с думата според правилата на играта бесеница. Отгатнатите букви се пазят в списъка `@revealed`.
 
-Този клас притежава и два класови метода: 
-
-```ruby
-in_database?(word)
-
-add_new(word)
-```
 
 Подобно на `RBHangman::Word`, класът `RBHangman::Player` е също наследник на `RBHangman::DB`. Всеки обект от този клас съдържа обект от клас `RBHangman::Word`, а също така и инстанционни променливи за име и брой отгатнати думи - `@name` и `@score`. Играта приключва, когато бъдат направени 10 грешни опита за отгатване на буквите на дадена дума. Прави се запис в таблицата `HIGHSCORES` в случай, че е постигнат нов рекорд.
 
@@ -80,14 +73,35 @@ add_new(word)
 ```ruby
 try_letter(letter)
 
-new_word
+alias [] try_letter
 ```
 ```ruby
-alias [] try_letter
+new_word
 ```
 
 
 Класът `RBHangman::Game` също наследява от `RBHangman::DB`.
+
+По-важни методи от този клас са: 
+
+```ruby
+in_database?(word)
+
+add_new(word)
+
+highscores(top = 10)
+
+select_player(name)
+
+player_name
+
+...
+```
+
+
+
+
+
 
 Следва продължение ...
 
