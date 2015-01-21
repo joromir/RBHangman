@@ -56,5 +56,7 @@ module RBHangman
       end
       self.word.revealed
     end
+
+    alias [] try_letter
   end
 end
