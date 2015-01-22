@@ -10,6 +10,8 @@
 
 ruby-2.2.0
 
+[Shoes](http://shoesrb.com/)
+
 Необходимо е да бъдат инсталирани следните gem-ове:
 
 `gem install sqlite3`
