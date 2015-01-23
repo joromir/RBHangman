@@ -14,12 +14,12 @@ module RBHangman
       end
     end
 
-    def highscores
+    def highscores(top = 10)
       result = selector('SCORE ,PLAYER',
                         'HIGHSCORES',
                         nil,
                         'SCORE DESC')
-      result[0..10]
+      result[1..top]
     end
 
     def initialize

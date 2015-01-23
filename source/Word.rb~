@@ -3,7 +3,7 @@ module RBHangman
     attr_reader :revealed, :wrong, :used
 
     def try(letter)
-      @used << letter.upcase
+      @used << letter.upcase unless @used.include?(letter.upcase)
       has_letter?(letter) ? reveal(letter) : @wrong = @wrong + 1
       @revealed
     end

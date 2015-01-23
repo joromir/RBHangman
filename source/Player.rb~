@@ -7,6 +7,7 @@ module RBHangman
     attr_accessor :name
 
     def initialize
+      @name = 'GUEST'
       reset
     end
 
@@ -27,9 +28,9 @@ module RBHangman
       @failed
     end
 
-    def save_highscore #problem!!!!
-      #old = selector('SCORE', 'HIGHSCORES', "PLAYER='#@name'")[0][0]
-      if(has_record?('HIGHSCORES', "#{@name.upcase}", 'PLAYER') )#and old < @score)
+    def save_highscore
+      old = selector('SCORE', 'HIGHSCORES', "PLAYER='#@name'")[0][0]
+      if(has_record?('HIGHSCORES', "#{@name.upcase}", 'PLAYER') and old < @score)
         updater('HIGHSCORES',
                 "PLAYER='#{@name.upcase}', SCORE=#@score",
                 "PLAYER='#{@name.upcase}'")
