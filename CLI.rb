@@ -6,8 +6,6 @@ require "./source/Game.rb"
 
 module RBHangman
   class CLI
-    attr_accessor :player # ????
-
     def initialize(game = Game.new)
       @game = game
       @player = game.player
@@ -15,25 +13,18 @@ module RBHangman
     end
 
     def login
-      clear
+      system "clear"
       puts "\nusername:"
       username = gets.chomp
-      if(username == "")
-        @player.name = "GUEST"
-      else
-        @player.name = username.upcase
-      end
+      username == "" ? @player.name = "GUEST" : @player.name = username.upcase
       menu
     end
 
     def menu
-      clear
-      puts "Welcome, #{@player.name}"
-      puts "\nMAIN MENU\n\n"
-      puts "[1] NEW GAME"
-      puts "[2] HIGHSCORES"
-      puts "[3] ADD A NEW WORD TO DICTIONARY"
-      puts "[4] QUIT GAME"
+      system "clear"
+      puts "WELCOME, #{@player.name}"
+      puts "\nMAIN MENU\n\n\n[1] NEW GAME\n[2] HIGHSCORES"
+      puts "[3] ADD A NEW WORD TO DICTIONARY\n[4] QUIT GAME"
       case gets.chomp
       when '1' then new_game
       when '2' then highscores
@@ -44,24 +35,18 @@ module RBHangman
     end
 
     def quit_game
-      clear
+      system "clear"
       exit
     end
 
-    def clear
-      system "clear"
-    end
-
     def highscores
-      clear
+      system "clear"
       result = []
         @game.highscores.each.with_index do |row, index|
         result << (index + 1).to_s + ". " + row[0].to_s + " " + row[1] + "\n"
       end
-      puts "\nHIGHSCORES:\n\n" + result.join
-      puts "-" * 10
-      puts "[1] BACK"
-      puts "[2] QUIT GAME"
+      puts "\nHIGHSCORES:\n\n" + result.join + "\n" + "-" * 10
+      puts "[1] BACK\n[2] QUIT GAME"
 
       case gets.chomp
       when '1' then menu
@@ -71,8 +56,8 @@ module RBHangman
     end
 
     def new_game
-      while(true) do
-        clear
+       loop do
+        system "clear"
         wrong = "[WRONG: #{@player.word.wrong}]"
         if(@player.word.used != [])
           used = "[USED LETTERS: #{@player.word.used.reduce(&:+).upcase}]"
@@ -87,7 +72,7 @@ module RBHangman
           insert_letter
           @player.new_word if(@player.word.guessed?)
         rescue GameOver => ex
-          clear
+          system "clear"
           figure(@player.word.wrong)
           puts ex.message
           break      
@@ -96,11 +81,39 @@ module RBHangman
       exit
     end
 
+    def new_word
+      puts "\nword:"
+      word = gets.chomp
+
+      if(word != "" and /^[a-zA-Z]*$/.match word)
+        begin
+          @game.add_word(word)
+        rescue Added => ex
+          system "clear"
+          ex.message
+          new_word
+        end
+      elsif(word == "!")
+        menu
+      else
+        new_word
+      end
+      puts '-' * 10 + "\n[1] BACK\n[2] QUIT GAME"
+      case gets.chomp
+      when '1' then menu
+      when '2' then quit_game
+      else new_word
+      end
+    end
+
     def insert_letter
-      puts "letter:"
+      puts "\nletter:"
       get = STDIN.first.chomp
       if(/^[a-zA-Z]$/.match get)
         @player[get]
+      elsif(get == "!")
+        @player.save_highscore
+        exit
       else
         insert_letter
       end
@@ -124,3 +137,5 @@ module RBHangman
     end
   end
 end
+
+RBHangman::CLI.new

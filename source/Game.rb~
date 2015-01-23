@@ -11,7 +11,7 @@ module RBHangman
 
     def add_word(word)
       if(in_database?(word))
-        raise Added, "'#{word.upcase}' already added"
+        raise ArgumentError, "'#{word.upcase}' already added"
       else
         inserter('DICTIONARY', "'#{word.upcase}'", 'WORD')
       end
