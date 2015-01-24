@@ -8,8 +8,6 @@ module RBHangman
       @revealed
     end
 
-#    alias [] try
-
     def guessed?
       @wrong < 10 and @hidden.join("") == @revealed.join("")
     end
