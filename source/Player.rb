@@ -6,38 +6,6 @@ module RBHangman
     attr_reader :word, :score
     attr_accessor :name
 
-    def initialize
-      reset
-    end
-
-    def reset
-      @word = Word.new
-      @score = 0
-      @failed = false
-      @word_scored = false
-      self
-    end
-
-    def new_word
-      @word_scored = false
-      @word = Word.new
-    end
-
-    def failed?
-      @failed
-    end
-
-    def save_highscore #problem!!!!
-      #old = selector('SCORE', 'HIGHSCORES', "PLAYER='#@name'")[0][0]
-      if(has_record?('HIGHSCORES', "#{@name.upcase}", 'PLAYER') )#and old < @score)
-        updater('HIGHSCORES',
-                "PLAYER='#{@name.upcase}', SCORE=#@score",
-                "PLAYER='#{@name.upcase}'")
-      else
-        inserter('HIGHSCORES', "'#{@name.upcase}', #@score", "PLAYER, SCORE")
-      end
-    end
-
     def [](letter)
       raise GameOver if(@word.failed?)
        @word[letter] unless(@word.guessed?)
@@ -53,6 +21,35 @@ module RBHangman
         raise GameOver, "Game Over: score: #@score, player: #@name"
       end
       self.word.revealed
+    end
+
+    def failed?
+      @failed
+    end
+
+    def new_word
+      @word_scored = false
+      @word = Word.new
+    end
+
+    def save_highscore #problem!!!!
+      #old = selector('SCORE', 'HIGHSCORES', "PLAYER='#@name'")[0][0]
+      if(has_record?('HIGHSCORES', "#{@name.upcase}", 'PLAYER') )#and old < @score)
+        updater('HIGHSCORES',
+                "PLAYER='#{@name.upcase}', SCORE=#@score",
+                "PLAYER='#{@name.upcase}'")
+      else
+        inserter('HIGHSCORES', "'#{@name.upcase}', #@score", "PLAYER, SCORE")
+      end
+    end
+
+    private
+
+    def initialize
+      @word = Word.new
+      @score = 0
+      @failed = false
+      @word_scored = false
     end
   end
 end

@@ -25,16 +25,10 @@ module RBHangman
       result[0..10]
     end
 
+    private
+    
     def initialize
       @player = Player.new
-    end
-
-    def select_player(name)
-      @player.name = name.upcase
-    end
-
-    def player_name
-      @player.name
     end
   end
 end

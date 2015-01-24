@@ -75,7 +75,7 @@ module RBHangman
           system "clear"
           figure(@player.word.wrong)
           puts ex.message
-          break      
+          break   
         end
       end
       exit
@@ -90,7 +90,7 @@ module RBHangman
           @game.add_word(word)
         rescue Added => ex
           system "clear"
-          ex.message
+          puts ex.message
           new_word
         end
       elsif(word == "!")
