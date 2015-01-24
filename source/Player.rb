@@ -32,12 +32,12 @@ module RBHangman
       @word = Word.new
     end
 
-    def save_highscore #problem!!!!
-      #old = selector('SCORE', 'HIGHSCORES', "PLAYER='#@name'")[0][0]
-      if(has_record?('HIGHSCORES', "#{@name.upcase}", 'PLAYER') )#and old < @score)
+    def save_highscore
+      old = selector('SCORE', 'HIGHSCORES', "PLAYER='#@name'")[0][0]
+      if(has_record?('HIGHSCORES', "#{@name.upcase}", 'PLAYER'))
         updater('HIGHSCORES',
                 "PLAYER='#{@name.upcase}', SCORE=#@score",
-                "PLAYER='#{@name.upcase}'")
+                "PLAYER='#{@name.upcase}'") if(old < @score)
       else
         inserter('HIGHSCORES', "'#{@name.upcase}', #@score", "PLAYER, SCORE")
       end
