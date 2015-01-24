@@ -67,7 +67,7 @@ module RBHangman
         puts figure(@player.word.wrong)
         puts wrong + used
         puts "[SCORE: #{@player.score}]" + "[USERNAME: #{@player.name}]"
-        puts @player.word.revealed.inspect
+        puts @player.word.revealed.inspect.gsub("[", "").gsub("]", "").gsub("\"", "").gsub(",", "")
         begin
           insert_letter
           @player.new_word if(@player.word.guessed?)
