@@ -2,13 +2,13 @@ module RBHangman
   class Word < DB
     attr_reader :revealed, :wrong, :used
 
-    def try(letter)
+    def [](letter)
       @used << letter.upcase
       has_letter?(letter) ? reveal(letter) : @wrong = @wrong + 1
       @revealed
     end
 
-    alias [] try
+#    alias [] try
 
     def guessed?
       @wrong < 10 and @hidden.join("") == @revealed.join("")
@@ -29,7 +29,6 @@ module RBHangman
                          'dictionary',
                          nil,
                          "RANDOM() LIMIT 1")[0][0].upcase.chars
-                         #letter encryption????
       @revealed = @hidden.map { |letter| letter = "_" }
       @wrong = 0
       @used = []

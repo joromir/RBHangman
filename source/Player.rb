@@ -38,10 +38,9 @@ module RBHangman
       end
     end
 
-    def try_letter(letter)
+    def [](letter)
       raise GameOver if(@word.failed?)
-      @word.try(letter) unless(@word.guessed?)         
-
+       @word[letter] unless(@word.guessed?)
       if(@word.guessed? and not(@word_scored))
         @score = @score + 1
         @word_scored = true
@@ -55,7 +54,5 @@ module RBHangman
       end
       self.word.revealed
     end
-
-    alias [] try_letter
   end
 end
