@@ -39,7 +39,7 @@ Shoes.app(title: "RBHangman") do
           end
 
           button "Highscores" do
-            alert "under construction"
+            Actions.highscores
           end
 
           button "About" do
@@ -50,9 +50,26 @@ Shoes.app(title: "RBHangman") do
           button "Exit" do
             exit
           end
+
         end
       end
     end
+
+    def self.highscores
+      Shoes.app do
+        background "#FFF"
+        background "./images/0.jpg"
+        title "HIGHSCORES", align: "left", top: 20, margin: 10
+        stack(margin: 30, top: 60) do
+          output = ""
+          @@game.highscores.each.with_index do |row, index|
+            output = output + (index + 1).to_s + ". " + row.to_s.gsub("[", "").gsub("]", "").gsub("\"", "").gsub(",", " - ") + "\n"
+          end
+          para strong(output)
+        end
+      end
+    end
+
   end
 
 
@@ -63,7 +80,6 @@ Shoes.app(title: "RBHangman") do
   stack do
     title("RBHangman", align: 'center', top: 30)
   end
-
 
   stack(top:120, left: 370) do
     @my_actions = Actions.new(self)
