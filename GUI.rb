@@ -31,7 +31,8 @@ Shoes.app(title: "RBHangman") do
           para strong("Username: #{@@game.player.name}")
 
           button "New Game" do
-            alert "under construction"
+            Actions.new_game
+            #close
           end
 
           button "New Word" do
@@ -50,8 +51,53 @@ Shoes.app(title: "RBHangman") do
           button "Exit" do
             exit
           end
-
         end
+      end
+    end
+
+    def self.new_game
+      Shoes.app do
+        background "#FFF"
+        background "./images/0.jpg"
+        image "./images/#{@@game.player.word.wrong}.png"
+
+
+        stack(top:10, left: 10) do
+          para("USERNAME: #{@@game.player.name}")
+          para("SCORE: #{@@game.player.score}")
+          para("WRONG: #{@@game.player.word.wrong}")
+          para("USED LETTERS: #{@@game.player.word.used}")
+          word_view = @@game.player.word.revealed.map do |letter|
+            letter = "#{letter} "
+          end.reduce(&:+)
+          title("#{word_view}", align: 'center')
+        end
+
+        letter = edit_line
+        button "GO" do
+          begin
+            @@game.player[letter.text]
+            Actions.new_game
+            close
+          rescue GameOver => ex
+            background "#FFF"
+            background "./images/0.jpg"
+            image "./images/#{@@game.player.word.wrong}.png"
+            title "GAME OVER"
+            Actions.new_game
+            close
+          end
+          if(@@game.player.word.guessed?)
+            @@game.player.new_word
+            
+            background "#FFF"
+            background "./images/0.jpg"
+            image "./images/#{@@game.player.word.wrong}.png"
+            Actions.new_game
+            close
+          end
+        end
+
       end
     end
 
@@ -63,15 +109,13 @@ Shoes.app(title: "RBHangman") do
         stack(margin: 30, top: 60) do
           output = ""
           @@game.highscores.each.with_index do |row, index|
-            output = output + (index + 1).to_s + ". " + row.to_s.gsub("[", "").gsub("]", "").gsub("\"", "").gsub(",", " - ") + "\n"
+            output = output + (index + 1).to_s + ". "+ row.to_s.gsub("[", "").gsub("]", "").gsub("\"", "").gsub(",", " - ") + "\n"
           end
           para strong(output)
         end
       end
     end
-
   end
-
 
   background "./images/0.jpg"
   image "./images/10.png"
