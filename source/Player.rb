@@ -33,8 +33,11 @@ module RBHangman
     end
 
     def save_highscore
-      old = selector('SCORE', 'HIGHSCORES', "PLAYER='#@name'")[0][0]
+
+
+
       if(has_record?('HIGHSCORES', "#{@name.upcase}", 'PLAYER'))
+        old = selector('SCORE', 'HIGHSCORES', "PLAYER='#@name'")[0][0]
         updater('HIGHSCORES',
                 "PLAYER='#{@name.upcase}', SCORE=#@score",
                 "PLAYER='#{@name.upcase}'") if(old < @score)
@@ -46,6 +49,7 @@ module RBHangman
     private
 
     def initialize
+      @name = "GUEST"
       @word = Word.new
       @score = 0
       @failed = false

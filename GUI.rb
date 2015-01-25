@@ -7,14 +7,16 @@ require "./source/Game.rb"
 module RBHangman
   class GUI
     @@logged = false
+    @@game = Game.new
 
     class << self
       def menu
         Shoes.app do
           background "./images/0.jpg"
           background "./images/10.png"
+
           stack do
-            title "RBHangman", align: 'center'
+            title("RBHangman", align: 'center')
           end
 
           stack(top:120, left: 370) do
@@ -23,17 +25,18 @@ module RBHangman
                 @name = ask("Username:").upcase
                 @@logged = true
                 para(strong(@name), top: 120, left: 465)
+                @@game.player.name = @name
               else
                 alert "Already logged in! Username: #@name"
               end
             end
 
             button "New game" do
-              alert "Under construction"
+              GUI.new_game
             end
-            
+
             button "Highscores" do
-             GUI.highscores
+              GUI.highscores
             end
             
             button "Add new word" do
@@ -46,6 +49,53 @@ module RBHangman
             end
           end
         end
+      end
+
+      def new_game
+        Shoes.app do
+          background "./images/0.jpg"
+            stack do
+              para strong("USERNAME: " + @@game.player.name)
+              para strong("SCORE: ")
+              para strong("WRONG: ")
+              para strong("USED WORDS: ")
+            end
+            title(@@game.player.word.revealed.map do|letter|
+                                                    letter = "#{letter} "
+                                                  end.reduce(&:+),
+                  align: 'center', top: 400)
+            stack(top:30, left: 480) do
+              button "A"
+              button "B"
+              button "C"
+              button "D"
+              button "E"
+              button "F"
+              button "G"
+              button "H"
+              button "I"
+              button "J"
+              button "K"
+              button "L"
+              button "M"
+            end
+            stack(top:30, left: 520) do
+              button "N"
+              button "O"
+              button "P"
+              button "Q"
+              button "R"
+              button "S"
+              button "T"
+              button "U"
+              button "V"
+              button "W"
+              button "X"
+              button "Y"
+              button "Z"
+            end
+        end
+        
       end
 
       def highscores
