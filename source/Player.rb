@@ -33,9 +33,6 @@ module RBHangman
     end
 
     def save_highscore
-
-
-
       if(has_record?('HIGHSCORES', "#{@name.upcase}", 'PLAYER'))
         old = selector('SCORE', 'HIGHSCORES', "PLAYER='#@name'")[0][0]
         updater('HIGHSCORES',
