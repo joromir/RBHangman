@@ -26,7 +26,7 @@ module RBHangman
     end
 
     private
-    
+
     def initialize
       @player = Player.new
     end

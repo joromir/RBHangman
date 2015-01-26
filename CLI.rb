@@ -75,7 +75,7 @@ module RBHangman
           system "clear"
           figure(@player.word.wrong)
           puts ex.message
-          break   
+          break
         end
       end
       exit

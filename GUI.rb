@@ -34,7 +34,7 @@ Shoes.app do
       @my_app.app do
         clear
         background "./images/0.jpg"
-        
+
 
         title("RBHangman", align: 'center', top: 25)
         para strong("Username: #{@@game.player.name}")
@@ -77,13 +77,13 @@ Shoes.app do
 
           output = ""
           @@game.highscores.each.with_index do |row, index|
-            output = output + (index + 1).to_s + ". " + 
+            output = output + (index + 1).to_s + ". " +
                      row[1] + ' (' + row[0].to_s + ")" + "\n"
           end
           para(strong(output), top: 90)
         end
 
-        stack(top: 400, left: 30) do      
+        stack(top: 400, left: 30) do
           button "Menu" do
             @my_actions.menu
           end
@@ -100,7 +100,7 @@ Shoes.app do
         clear
         background "#FFF"
         background "./images/0.jpg"
-        
+
         word_view = @@game.player.word.revealed.map do |letter|
           letter = "#{letter} "
         end.reduce(&:+)
@@ -143,8 +143,8 @@ Shoes.app do
             if(@@game.player.word.guessed?)
               the_word = @@game.player.word.revealed.reduce(&:+)
               alert "Good job, the word is #{the_word}"
-              @@game.player.new_word              
-            end 
+              @@game.player.new_word
+            end
 
             @my_actions.new_game
           end
