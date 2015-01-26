@@ -21,11 +21,11 @@ Shoes.app do
 
     def add_word
       @my_app.app do
-        word = ask("New word:")
-        if(@@game.in_database?(word.upcase))
+        word = ask("New word:").upcase
+        if(@@game.in_database?(word))
           alert "Word '#{word.upcase}' already added!"
         else
-          @@game.add_word(word.upcase)
+          @@game.add_word(word)
         end
       end
     end
@@ -63,7 +63,6 @@ Shoes.app do
             exit
           end
         end
-
       end
     end
 
@@ -112,7 +111,6 @@ Shoes.app do
           exit
         end
 
-
         stack(top:60, left: 280) do
           used = @@game.player.word.used.to_s.gsub("[", "")
                                              .gsub("]", "")
@@ -123,18 +121,31 @@ Shoes.app do
           para strong("USED: #{used}",
                       left: 10,
                       top: 10)
-          image "./images/#{@@game.player.word.wrong}.png"
         end
+
+        image "./images/#{@@game.player.word.wrong}.png", top: 10, left: 30
 
         stack(top:260, left: 280) do
           letter = edit_line
-          button "GO" do
+
+          button "Enter" do
+            if(@@game.player.word.failed?)
+              clear
+              @@game.player.save_highscore
+              background "#FFF"
+              background "./images/0.jpg"
+              title "GAME OVER", align: 'center', top: 30
+              image "./images/10.png", top: 30, left: 30
+            end
+
             @@game.player[letter.text.upcase]
+
             if(@@game.player.word.guessed?)
               the_word = @@game.player.word.revealed.reduce(&:+)
               alert "Good job, the word is #{the_word}"
-              @@game.player.new_word
+              @@game.player.new_word              
             end 
+
             @my_actions.new_game
           end
         end
