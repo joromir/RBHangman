@@ -33,16 +33,16 @@ Shoes.app do
     def menu
       @my_app.app do
         clear
-        background "#FFF"
         background "./images/0.jpg"
+        
 
         title("RBHangman", align: 'center', top: 25)
         para strong("Username: #{@@game.player.name}")
-
+        image "./images/10.png"
 
         stack(top:160, left: 370) do
           button "New Game" do
-            Actions.new_game
+            @my_actions.new_game
           end
 
           button "Highscores" do
@@ -59,6 +59,7 @@ Shoes.app do
           end
 
           button "Exit" do
+            @@game.player.save_highscore
             exit
           end
         end
@@ -72,45 +73,45 @@ Shoes.app do
         background "#FFF"
         background "./images/0.jpg"
 
-        title "HIGHSCORES", align: "left", top: 20, margin: 10
-        para strong("Username: #{@@game.player.name}")
-        
-        button "Menu" do
-          @my_actions.menu
-        end
-        stack(margin: 30, top: 60) do
+        stack(margin: 30) do
+          title "HIGHSCORES", align: "left", top: 20
+
           output = ""
           @@game.highscores.each.with_index do |row, index|
-
             output = output + (index + 1).to_s + ". " + 
                      row[1] + ' (' + row[0].to_s + ")" + "\n"
           end
-          para strong(output)
+          para(strong(output), top: 90)
+        end
+
+        stack(top: 400, left: 30) do      
+          button "Menu" do
+            @my_actions.menu
+          end
+          button "Exit" do
+            exit
+          end
+          para strong("Username: #{@@game.player.name}")
         end
       end
     end
 
-
-
-
-
-
-
-
-
-
-###########################
-    def self.new_game
-      Shoes.app(title: "RBHangman") do
+    def new_game
+      @my_app.app do
+        clear
         background "#FFF"
         background "./images/0.jpg"
-        background "./images/#{@@game.player.word.wrong}.png"
-
+        
         word_view = @@game.player.word.revealed.map do |letter|
           letter = "#{letter} "
         end.reduce(&:+)
 
         title("#{word_view}", align: 'center', top: 400)
+        button "Save highscore and exit" do
+          @@game.player.save_highscore
+          exit
+        end
+
 
         stack(top:60, left: 280) do
           used = @@game.player.word.used.to_s.gsub("[", "")
@@ -122,31 +123,24 @@ Shoes.app do
           para strong("USED: #{used}",
                       left: 10,
                       top: 10)
+          image "./images/#{@@game.player.word.wrong}.png"
         end
 
         stack(top:260, left: 280) do
           letter = edit_line
           button "GO" do
-            @@game.player[letter.text]
-
+            @@game.player[letter.text.upcase]
             if(@@game.player.word.guessed?)
               the_word = @@game.player.word.revealed.reduce(&:+)
               alert "Good job, the word is #{the_word}"
               @@game.player.new_word
             end 
-            Actions.new_game
-            close
+            @my_actions.new_game
           end
         end
       end
     end
-
-
-
-
   end
-
-
 
   background "./images/0.jpg"
   image "./images/10.png"
@@ -158,7 +152,7 @@ Shoes.app do
   stack(top:120, left: 370) do
     @my_actions = Actions.new(self)
 
-    stack(left:10, top: 300) do
+    stack(left:10, top: 110) do
       username = edit_line
 
       button "Login" do
@@ -168,9 +162,7 @@ Shoes.app do
           @my_actions.do_login("GUEST")
         end
         @my_actions.menu
-#        close
       end
     end
-
   end
 end
