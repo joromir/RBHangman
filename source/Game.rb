@@ -22,7 +22,7 @@ module RBHangman
                         'HIGHSCORES',
                         nil,
                         'SCORE DESC')
-      result[0..10]
+      result[0...10]
     end
 
     private

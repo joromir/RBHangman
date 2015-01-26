@@ -56,48 +56,44 @@ Shoes.app(title: "RBHangman") do
     end
 
     def self.new_game
-      Shoes.app do
+
+      Shoes.app(title: "RBHangman") do
         background "#FFF"
         background "./images/0.jpg"
-        image "./images/#{@@game.player.word.wrong}.png"
+        background "./images/#{@@game.player.word.wrong}.png"
 
+        word_view = @@game.player.word.revealed.map do |letter|
+          letter = "#{letter} "
+        end.reduce(&:+)
 
-        stack(top:10, left: 10) do
-          para("USERNAME: #{@@game.player.name}")
-          para("SCORE: #{@@game.player.score}")
-          para("WRONG: #{@@game.player.word.wrong}")
-          para("USED LETTERS: #{@@game.player.word.used}")
-          word_view = @@game.player.word.revealed.map do |letter|
-            letter = "#{letter} "
-          end.reduce(&:+)
-          title("#{word_view}", align: 'center')
+        title("#{word_view}", align: 'center', top: 400)
+
+        stack(top:60, left: 280) do
+          used = @@game.player.word.used.to_s.gsub("[", "")
+                                             .gsub("]", "")
+                                             .gsub("\"", "")
+          para strong("USERNAME: #{@@game.player.name}")
+          para strong("SCORE: #{@@game.player.score}")
+          para strong("WRONG: #{@@game.player.word.wrong}")
+          para strong("USED: #{used}",
+                      left: 10,
+                      top: 10)
         end
 
-        letter = edit_line
-        button "GO" do
-          begin
+        stack(top:260, left: 280) do
+          letter = edit_line
+          button "GO" do
             @@game.player[letter.text]
-            Actions.new_game
-            close
-          rescue GameOver => ex
-            background "#FFF"
-            background "./images/0.jpg"
-            image "./images/#{@@game.player.word.wrong}.png"
-            title "GAME OVER"
-            Actions.new_game
-            close
-          end
-          if(@@game.player.word.guessed?)
-            @@game.player.new_word
-            
-            background "#FFF"
-            background "./images/0.jpg"
-            image "./images/#{@@game.player.word.wrong}.png"
+
+            if(@@game.player.word.guessed?)
+              the_word = @@game.player.word.revealed.reduce(&:+)
+              alert "Good job, the word is #{the_word}"
+              @@game.player.new_word
+            end 
             Actions.new_game
             close
           end
         end
-
       end
     end
 
@@ -109,7 +105,9 @@ Shoes.app(title: "RBHangman") do
         stack(margin: 30, top: 60) do
           output = ""
           @@game.highscores.each.with_index do |row, index|
-            output = output + (index + 1).to_s + ". "+ row.to_s.gsub("[", "").gsub("]", "").gsub("\"", "").gsub(",", " - ") + "\n"
+
+            output = output + (index + 1).to_s + ". " + 
+                     row[1] + ' (' + row[0].to_s + ")" + "\n"
           end
           para strong(output)
         end
@@ -119,7 +117,6 @@ Shoes.app(title: "RBHangman") do
 
   background "./images/0.jpg"
   image "./images/10.png"
-
 
   stack do
     title("RBHangman", align: 'center', top: 30)
