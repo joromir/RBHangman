@@ -46,7 +46,6 @@ module RBHangman
     private
 
     def initialize
-      @name = "GUEST"
       @word = Word.new
       @score = 0
       @failed = false
