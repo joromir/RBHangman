@@ -4,7 +4,7 @@ require_relative "../source/Word.rb"
 require_relative "../source/Player.rb"
 require_relative "../source/Game.rb"
 
-describe "RBHangma::Game" do
+describe "RBHangman::Game" do
   before :each do
     ('A'..'K').each.with_index do |letter, index|
       query = "INSERT INTO HIGHSCORES VALUES ('#{letter.upcase * 3}', #{index});"
